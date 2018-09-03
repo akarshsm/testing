@@ -8,6 +8,24 @@ class CommentBox extends Component {
         comment: ''
     };
 
+    //component just got rendered
+    componentDidMount () {
+        this.isLoggedIn();
+    }
+    
+
+    componentDidUpdate(){
+        this.isLoggedIn();
+    }
+
+    isLoggedIn(){
+        if (!this.props.auth) {
+            console.log("Logged out");
+            this.props.history.push('/');
+        }
+    }
+
+
     handleChange = (event) => {
         this.setState({comment : event.target.value});
     }
@@ -36,4 +54,9 @@ class CommentBox extends Component {
         );
     }
 }
-export default connect(null, actions)(CommentBox);
+
+function mapStateToProps(state) {
+    return { auth: state.auth };
+    
+}
+export default connect(mapStateToProps, actions)(CommentBox);
